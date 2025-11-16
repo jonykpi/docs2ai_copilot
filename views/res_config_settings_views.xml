@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_docs2ai" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.docs2ai</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="50"/>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Docs2AI" string="Docs2AI" name="docs2ai">
+                    <div id="docs2ai_config">
+                        <block title="API Configuration" name="docs2ai_setting_container">
+                            <setting id="docs2ai_api_key_setting" string="API Key" help="API key for Docs2AI authentication">
+                                <field name="docs2ai_api_key" password="True" placeholder="Enter your API key"/>
+                            </setting>
+                            <setting id="docs2ai_folder_id_setting" string="Folder ID" help="Folder ID where documents will be uploaded (e.g., 2589). Will be validated on save.">
+                                <field name="docs2ai_folder_id" placeholder="Enter folder ID (e.g., 2589)"/>
+                            </setting>
+                            <setting id="docs2ai_folder_name_setting" string="Folder Name" help="Folder name (auto-filled after validation)" invisible="not docs2ai_folder_name">
+                                <field name="docs2ai_folder_name" readonly="1"/>
+                            </setting>
+                            <setting id="docs2ai_scanner_link_setting" string="Scanner Link" help="Scanner link (auto-filled after validation)" invisible="not docs2ai_scanner_link">
+                                <field name="docs2ai_scanner_link" readonly="1" widget="url"/>
+                            </setting>
+                            <setting id="docs2ai_return_url_setting" string="Return URL" help="Return URL after document processing">
+                                <field name="docs2ai_return_url" placeholder="http://localhost:8069/odoo"/>
+                            </setting>
+                        </block>
+                    </div>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

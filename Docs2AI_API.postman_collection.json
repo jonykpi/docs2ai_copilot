@@ -1,0 +1,459 @@
+{
+	"info": {
+		"_postman_id": "docs2ai-api-collection",
+		"name": "Docs2AI Upload API",
+		"description": "Complete API collection for Docs2AI Upload module - Customers, Vendors, Sales Entries, and Purchase Entries",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "docs2ai"
+	},
+	"item": [
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "List Customers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/customers?limit=100&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Maximum number of records to return"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Number of records to skip (for pagination)"
+								}
+							]
+						},
+						"description": "Get a list of all customers (partners with customer_rank > 0)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Customer\",\n    \"email\": \"newcustomer@example.com\",\n    \"phone\": \"+1234567890\",\n    \"mobile\": \"+0987654321\",\n    \"street\": \"123 Main Street\",\n    \"street2\": \"Suite 100\",\n    \"city\": \"New York\",\n    \"zip\": \"10001\",\n    \"country_id\": \"United States\",\n    \"state_id\": \"New York\",\n    \"vat\": \"US123456789\",\n    \"is_company\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/customers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"customers"
+							]
+						},
+						"description": "Create a new customer (partner with customer_rank > 0). Required field: name. Optional fields: email, phone, mobile, street, street2, city, zip, country_id, state_id, vat, is_company"
+					},
+					"response": []
+				}
+			],
+			"description": "Customer management APIs"
+		},
+		{
+			"name": "Vendors",
+			"item": [
+				{
+					"name": "List Vendors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/vendors?limit=100&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vendors"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Maximum number of records to return"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Number of records to skip (for pagination)"
+								}
+							]
+						},
+						"description": "Get a list of all vendors (partners with supplier_rank > 0)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Vendor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Vendor\",\n    \"email\": \"newvendor@example.com\",\n    \"phone\": \"+1234567890\",\n    \"mobile\": \"+0987654321\",\n    \"street\": \"456 Vendor Street\",\n    \"street2\": \"Building B\",\n    \"city\": \"Los Angeles\",\n    \"zip\": \"90001\",\n    \"country_id\": \"United States\",\n    \"state_id\": \"California\",\n    \"vat\": \"US987654321\",\n    \"is_company\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/vendors",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vendors"
+							]
+						},
+						"description": "Create a new vendor (partner with supplier_rank > 0). Required field: name. Optional fields: email, phone, mobile, street, street2, city, zip, country_id, state_id, vat, is_company"
+					},
+					"response": []
+				}
+			],
+			"description": "Vendor management APIs"
+		},
+		{
+			"name": "Sales Entries",
+			"item": [
+				{
+					"name": "List Sales Entries",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/sales-entries?limit=100&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"sales-entries"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Maximum number of records to return"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Number of records to skip (for pagination)"
+								}
+							]
+						},
+						"description": "Get a list of all sales entries (customer invoices and credit notes - move_type: out_invoice, out_refund)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Sales Entry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"partner_id\": 1,\n    \"invoice_date\": \"2024-01-15\",\n    \"invoice_date_due\": \"2024-02-15\",\n    \"journal_id\": 1,\n    \"currency_id\": \"USD\",\n    \"invoice_line_ids\": [\n        {\n            \"product_id\": 1,\n            \"name\": \"Product Description\",\n            \"quantity\": 1.0,\n            \"price_unit\": 100.0,\n            \"tax_ids\": [1, 2],\n            \"account_id\": 1\n        },\n        {\n            \"name\": \"Service Description\",\n            \"quantity\": 2.0,\n            \"price_unit\": 50.0,\n            \"tax_ids\": [1]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/sales-entries",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"sales-entries"
+							]
+						},
+						"description": "Create a new sales entry (customer invoice). Required: partner_id. Optional: invoice_date, invoice_date_due, journal_id, currency_id, invoice_line_ids (array of line items with product_id, name, quantity, price_unit, tax_ids, account_id)"
+					},
+					"response": []
+				}
+			],
+			"description": "Sales entry (Customer Invoice) management APIs"
+		},
+		{
+			"name": "Purchase Entries",
+			"item": [
+				{
+					"name": "List Purchase Entries",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/purchase-entries?limit=100&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"purchase-entries"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Maximum number of records to return"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Number of records to skip (for pagination)"
+								}
+							]
+						},
+						"description": "Get a list of all purchase entries (vendor bills and credit notes - move_type: in_invoice, in_refund)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Purchase Entry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"partner_id\": 1,\n    \"invoice_date\": \"2024-01-15\",\n    \"invoice_date_due\": \"2024-02-15\",\n    \"journal_id\": 1,\n    \"currency_id\": \"USD\",\n    \"invoice_line_ids\": [\n        {\n            \"product_id\": 1,\n            \"name\": \"Product Description\",\n            \"quantity\": 1.0,\n            \"price_unit\": 100.0,\n            \"tax_ids\": [1, 2],\n            \"account_id\": 1\n        },\n        {\n            \"name\": \"Service Description\",\n            \"quantity\": 2.0,\n            \"price_unit\": 50.0,\n            \"tax_ids\": [1]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/purchase-entries",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"purchase-entries"
+							]
+						},
+						"description": "Create a new purchase entry (vendor bill). Required: partner_id. Optional: invoice_date, invoice_date_due, journal_id, currency_id, invoice_line_ids (array of line items with product_id, name, quantity, price_unit, tax_ids, account_id)"
+					},
+					"response": []
+				}
+			],
+			"description": "Purchase entry (Vendor Bill) management APIs"
+		},
+		{
+			"name": "Vendor Bills",
+			"item": [
+				{
+					"name": "List Bills",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/bills?limit=100&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"bills"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Maximum number of records to return"
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Number of records to skip (for pagination)"
+								}
+							]
+						},
+						"description": "Get a list of vendor bills and receipts (move_type: in_invoice, in_receipt, excludes refunds)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Bill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"bill\",\n    \"partner_id\": 1,\n    \"bill_name\": \"BILL/2024/01/0001\",\n    \"invoice_date\": \"2024-01-15\",\n    \"invoice_date_due\": \"2024-02-15\",\n    \"journal_id\": 1,\n    \"currency_id\": \"USD\",\n    \"attachment\": {\n        \"name\": \"document.pdf\",\n        \"data\": \"base64_encoded_file_data_here\",\n        \"mimetype\": \"application/pdf\"\n    },\n    \"invoice_line_ids\": [\n        {\n            \"product_id\": 1,\n            \"name\": \"Product Description\",\n            \"quantity\": 1.0,\n            \"price_unit\": 100.0,\n            \"tax_ids\": [1, 2],\n            \"account_id\": 1\n        },\n        {\n            \"name\": \"Service Description\",\n            \"quantity\": 2.0,\n            \"price_unit\": 50.0,\n            \"tax_ids\": [1]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/bills",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"bills"
+							]
+						},
+						"description": "Create a new vendor bill or receipt. Required: partner_id. Optional: type (\"bill\" or \"receipt\", default: \"bill\"), bill_name, invoice_date, invoice_date_due, journal_id, currency_id, attachment (object with name, data (base64), mimetype), invoice_line_ids (array of line items with product_id, name, quantity, price_unit, tax_ids, account_id)"
+					},
+					"response": []
+				}
+			],
+			"description": "Vendor Bill management APIs (bills only, excludes refunds)"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8069",
+			"type": "string"
+		},
+		{
+			"key": "api_token",
+			"value": "YOUR_API_TOKEN_HERE",
+			"type": "string"
+		}
+	]
+}
+

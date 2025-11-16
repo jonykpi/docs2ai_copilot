@@ -1,0 +1,479 @@
+{
+  "api_name": "Docs2AI Upload API",
+  "version": "1.0.0",
+  "base_url": "http://localhost:8069",
+  "authentication": {
+    "type": "Bearer Token",
+    "description": "All endpoints require Bearer token authentication. Get your API token from Odoo: Settings → Users & Companies → Users → Select User → API Keys",
+    "header": "Authorization: Bearer YOUR_API_TOKEN"
+  },
+  "endpoints": [
+    {
+      "name": "List Customers",
+      "method": "GET",
+      "url": "/api/customers",
+      "description": "Get a list of all customers (partners with customer_rank > 0)",
+      "authentication": "Bearer Token",
+      "query_parameters": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "default": 100,
+          "description": "Maximum number of records to return"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "default": 0,
+          "description": "Number of records to skip (for pagination)"
+        }
+      ],
+      "request_example": {
+        "method": "GET",
+        "url": "http://localhost:8069/api/customers?limit=50&offset=0",
+        "headers": {
+          "Authorization": "Bearer YOUR_API_TOKEN",
+          "Content-Type": "application/json"
+        }
+      },
+      "response_success": {
+        "status": "success",
+        "count": 2,
+        "total": 2,
+        "data": [
+          {
+            "id": 1,
+            "name": "Customer Name",
+            "email": "customer@example.com",
+            "phone": "+1234567890",
+            "mobile": "+0987654321",
+            "street": "123 Main Street",
+            "street2": "Suite 100",
+            "city": "New York",
+            "state_id": "New York",
+            "zip": "10001",
+            "country_id": "United States",
+            "vat": "US123456789",
+            "is_company": true,
+            "customer_rank": 1
+          },
+          {
+            "id": 2,
+            "name": "Another Customer",
+            "email": "another@example.com",
+            "phone": "",
+            "mobile": "",
+            "street": "",
+            "street2": "",
+            "city": "",
+            "state_id": "",
+            "zip": "",
+            "country_id": "",
+            "vat": "",
+            "is_company": false,
+            "customer_rank": 1
+          }
+        ]
+      },
+      "response_error": {
+        "status": "error",
+        "message": "Error message description"
+      },
+      "curl_example": "curl -X GET 'http://localhost:8069/api/customers?limit=50&offset=0' -H 'Authorization: Bearer YOUR_API_TOKEN' -H 'Content-Type: application/json'"
+    },
+    {
+      "name": "Create Customer",
+      "method": "POST",
+      "url": "/api/customers",
+      "description": "Create a new customer (partner with customer_rank > 0)",
+      "authentication": "Bearer Token",
+      "request_body": {
+        "required_fields": [
+          "name"
+        ],
+        "optional_fields": [
+          "email",
+          "phone",
+          "mobile",
+          "street",
+          "street2",
+          "city",
+          "zip",
+          "country_id",
+          "state_id",
+          "vat",
+          "is_company"
+        ],
+        "schema": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "description": "Customer name"
+          },
+          "email": {
+            "type": "string",
+            "required": false,
+            "description": "Email address"
+          },
+          "phone": {
+            "type": "string",
+            "required": false,
+            "description": "Phone number"
+          },
+          "mobile": {
+            "type": "string",
+            "required": false,
+            "description": "Mobile number"
+          },
+          "street": {
+            "type": "string",
+            "required": false,
+            "description": "Street address"
+          },
+          "street2": {
+            "type": "string",
+            "required": false,
+            "description": "Street address line 2"
+          },
+          "city": {
+            "type": "string",
+            "required": false,
+            "description": "City"
+          },
+          "zip": {
+            "type": "string",
+            "required": false,
+            "description": "ZIP/Postal code"
+          },
+          "country_id": {
+            "type": "string",
+            "required": false,
+            "description": "Country name or code (e.g., 'United States' or 'US')"
+          },
+          "state_id": {
+            "type": "string",
+            "required": false,
+            "description": "State/Province name (requires country_id)"
+          },
+          "vat": {
+            "type": "string",
+            "required": false,
+            "description": "VAT/Tax ID number"
+          },
+          "is_company": {
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Whether this is a company (true) or individual (false)"
+          }
+        }
+      },
+      "request_example": {
+        "method": "POST",
+        "url": "http://localhost:8069/api/customers",
+        "headers": {
+          "Authorization": "Bearer YOUR_API_TOKEN",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "New Customer",
+          "email": "newcustomer@example.com",
+          "phone": "+1234567890",
+          "street": "456 Business Ave",
+          "city": "Los Angeles",
+          "zip": "90001",
+          "country_id": "United States",
+          "state_id": "California",
+          "vat": "US987654321",
+          "is_company": true
+        }
+      },
+      "response_success": {
+        "status": "success",
+        "message": "Customer created successfully",
+        "data": {
+          "id": 3,
+          "name": "New Customer",
+          "email": "newcustomer@example.com",
+          "phone": "+1234567890",
+          "mobile": "",
+          "street": "456 Business Ave",
+          "street2": "",
+          "city": "Los Angeles",
+          "state_id": "California",
+          "zip": "90001",
+          "country_id": "United States",
+          "vat": "US987654321",
+          "is_company": true,
+          "customer_rank": 1
+        }
+      },
+      "response_error": {
+        "status": "error",
+        "message": "Name is required"
+      },
+      "curl_example": "curl -X POST 'http://localhost:8069/api/customers' -H 'Authorization: Bearer YOUR_API_TOKEN' -H 'Content-Type: application/json' -d '{\"name\":\"New Customer\",\"email\":\"newcustomer@example.com\",\"phone\":\"+1234567890\",\"is_company\":true}'"
+    },
+    {
+      "name": "List Vendors",
+      "method": "GET",
+      "url": "/api/vendors",
+      "description": "Get a list of all vendors (partners with supplier_rank > 0)",
+      "authentication": "Bearer Token",
+      "query_parameters": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "default": 100,
+          "description": "Maximum number of records to return"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "required": false,
+          "default": 0,
+          "description": "Number of records to skip (for pagination)"
+        }
+      ],
+      "request_example": {
+        "method": "GET",
+        "url": "http://localhost:8069/api/vendors?limit=50&offset=0",
+        "headers": {
+          "Authorization": "Bearer YOUR_API_TOKEN",
+          "Content-Type": "application/json"
+        }
+      },
+      "response_success": {
+        "status": "success",
+        "count": 2,
+        "total": 2,
+        "data": [
+          {
+            "id": 10,
+            "name": "Vendor Name",
+            "email": "vendor@example.com",
+            "phone": "+1234567890",
+            "mobile": "+0987654321",
+            "street": "789 Supplier Street",
+            "street2": "Building A",
+            "city": "Chicago",
+            "state_id": "Illinois",
+            "zip": "60601",
+            "country_id": "United States",
+            "vat": "US111222333",
+            "is_company": true,
+            "supplier_rank": 1
+          },
+          {
+            "id": 11,
+            "name": "Another Vendor",
+            "email": "anothervendor@example.com",
+            "phone": "",
+            "mobile": "",
+            "street": "",
+            "street2": "",
+            "city": "",
+            "state_id": "",
+            "zip": "",
+            "country_id": "",
+            "vat": "",
+            "is_company": false,
+            "supplier_rank": 1
+          }
+        ]
+      },
+      "response_error": {
+        "status": "error",
+        "message": "Error message description"
+      },
+      "curl_example": "curl -X GET 'http://localhost:8069/api/vendors?limit=50&offset=0' -H 'Authorization: Bearer YOUR_API_TOKEN' -H 'Content-Type: application/json'"
+    },
+    {
+      "name": "Create Vendor",
+      "method": "POST",
+      "url": "/api/vendors",
+      "description": "Create a new vendor (partner with supplier_rank > 0)",
+      "authentication": "Bearer Token",
+      "request_body": {
+        "required_fields": [
+          "name"
+        ],
+        "optional_fields": [
+          "email",
+          "phone",
+          "mobile",
+          "street",
+          "street2",
+          "city",
+          "zip",
+          "country_id",
+          "state_id",
+          "vat",
+          "is_company"
+        ],
+        "schema": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "description": "Vendor name"
+          },
+          "email": {
+            "type": "string",
+            "required": false,
+            "description": "Email address"
+          },
+          "phone": {
+            "type": "string",
+            "required": false,
+            "description": "Phone number"
+          },
+          "mobile": {
+            "type": "string",
+            "required": false,
+            "description": "Mobile number"
+          },
+          "street": {
+            "type": "string",
+            "required": false,
+            "description": "Street address"
+          },
+          "street2": {
+            "type": "string",
+            "required": false,
+            "description": "Street address line 2"
+          },
+          "city": {
+            "type": "string",
+            "required": false,
+            "description": "City"
+          },
+          "zip": {
+            "type": "string",
+            "required": false,
+            "description": "ZIP/Postal code"
+          },
+          "country_id": {
+            "type": "string",
+            "required": false,
+            "description": "Country name or code (e.g., 'United States' or 'US')"
+          },
+          "state_id": {
+            "type": "string",
+            "required": false,
+            "description": "State/Province name (requires country_id)"
+          },
+          "vat": {
+            "type": "string",
+            "required": false,
+            "description": "VAT/Tax ID number"
+          },
+          "is_company": {
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Whether this is a company (true) or individual (false)"
+          }
+        }
+      },
+      "request_example": {
+        "method": "POST",
+        "url": "http://localhost:8069/api/vendors",
+        "headers": {
+          "Authorization": "Bearer YOUR_API_TOKEN",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "New Vendor",
+          "email": "newvendor@example.com",
+          "phone": "+1234567890",
+          "street": "321 Vendor Lane",
+          "city": "Houston",
+          "zip": "77001",
+          "country_id": "United States",
+          "state_id": "Texas",
+          "vat": "US444555666",
+          "is_company": true
+        }
+      },
+      "response_success": {
+        "status": "success",
+        "message": "Vendor created successfully",
+        "data": {
+          "id": 12,
+          "name": "New Vendor",
+          "email": "newvendor@example.com",
+          "phone": "+1234567890",
+          "mobile": "",
+          "street": "321 Vendor Lane",
+          "street2": "",
+          "city": "Houston",
+          "state_id": "Texas",
+          "zip": "77001",
+          "country_id": "United States",
+          "vat": "US444555666",
+          "is_company": true,
+          "supplier_rank": 1
+        }
+      },
+      "response_error": {
+        "status": "error",
+        "message": "Name is required"
+      },
+      "curl_example": "curl -X POST 'http://localhost:8069/api/vendors' -H 'Authorization: Bearer YOUR_API_TOKEN' -H 'Content-Type: application/json' -d '{\"name\":\"New Vendor\",\"email\":\"newvendor@example.com\",\"phone\":\"+1234567890\",\"is_company\":true}'"
+    }
+  ],
+  "common_responses": {
+    "success_format": {
+      "status": "success",
+      "data": {},
+      "message": "Optional success message"
+    },
+    "error_format": {
+      "status": "error",
+      "message": "Error description"
+    },
+    "http_status_codes": {
+      "200": "Success",
+      "400": "Bad Request - Invalid parameters",
+      "401": "Unauthorized - Invalid or missing authentication token",
+      "403": "Forbidden - Insufficient permissions",
+      "500": "Internal Server Error"
+    }
+  },
+  "testing_examples": {
+    "get_customers": {
+      "curl": "curl -X GET 'http://localhost:8069/api/customers?limit=10' -H 'Authorization: Bearer YOUR_API_TOKEN' -H 'Content-Type: application/json'",
+      "javascript": "fetch('http://localhost:8069/api/customers?limit=10', {\n  method: 'GET',\n  headers: {\n    'Authorization': 'Bearer YOUR_API_TOKEN',\n    'Content-Type': 'application/json'\n  }\n})\n.then(response => response.json())\n.then(data => console.log(data));",
+      "python": "import requests\n\nurl = 'http://localhost:8069/api/customers'\nheaders = {\n    'Authorization': 'Bearer YOUR_API_TOKEN',\n    'Content-Type': 'application/json'\n}\nparams = {'limit': 10}\n\nresponse = requests.get(url, headers=headers, params=params)\nprint(response.json())"
+    },
+    "create_customer": {
+      "curl": "curl -X POST 'http://localhost:8069/api/customers' -H 'Authorization: Bearer YOUR_API_TOKEN' -H 'Content-Type: application/json' -d '{\"name\":\"Test Customer\",\"email\":\"test@example.com\",\"is_company\":true}'",
+      "javascript": "fetch('http://localhost:8069/api/customers', {\n  method: 'POST',\n  headers: {\n    'Authorization': 'Bearer YOUR_API_TOKEN',\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    name: 'Test Customer',\n    email: 'test@example.com',\n    is_company: true\n  })\n})\n.then(response => response.json())\n.then(data => console.log(data));",
+      "python": "import requests\n\nurl = 'http://localhost:8069/api/customers'\nheaders = {\n    'Authorization': 'Bearer YOUR_API_TOKEN',\n    'Content-Type': 'application/json'\n}\ndata = {\n    'name': 'Test Customer',\n    'email': 'test@example.com',\n    'is_company': True\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+    },
+    "get_vendors": {
+      "curl": "curl -X GET 'http://localhost:8069/api/vendors?limit=10' -H 'Authorization: Bearer YOUR_API_TOKEN' -H 'Content-Type: application/json'",
+      "javascript": "fetch('http://localhost:8069/api/vendors?limit=10', {\n  method: 'GET',\n  headers: {\n    'Authorization': 'Bearer YOUR_API_TOKEN',\n    'Content-Type': 'application/json'\n  }\n})\n.then(response => response.json())\n.then(data => console.log(data));",
+      "python": "import requests\n\nurl = 'http://localhost:8069/api/vendors'\nheaders = {\n    'Authorization': 'Bearer YOUR_API_TOKEN',\n    'Content-Type': 'application/json'\n}\nparams = {'limit': 10}\n\nresponse = requests.get(url, headers=headers, params=params)\nprint(response.json())"
+    },
+    "create_vendor": {
+      "curl": "curl -X POST 'http://localhost:8069/api/vendors' -H 'Authorization: Bearer YOUR_API_TOKEN' -H 'Content-Type: application/json' -d '{\"name\":\"Test Vendor\",\"email\":\"vendor@example.com\",\"is_company\":true}'",
+      "javascript": "fetch('http://localhost:8069/api/vendors', {\n  method: 'POST',\n  headers: {\n    'Authorization': 'Bearer YOUR_API_TOKEN',\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    name: 'Test Vendor',\n    email: 'vendor@example.com',\n    is_company: true\n  })\n})\n.then(response => response.json())\n.then(data => console.log(data));",
+      "python": "import requests\n\nurl = 'http://localhost:8069/api/vendors'\nheaders = {\n    'Authorization': 'Bearer YOUR_API_TOKEN',\n    'Content-Type': 'application/json'\n}\ndata = {\n    'name': 'Test Vendor',\n    'email': 'vendor@example.com',\n    'is_company': True\n}\n\nresponse = requests.post(url, headers=headers, json=data)\nprint(response.json())"
+    }
+  },
+  "notes": [
+    "All endpoints require Bearer token authentication",
+    "Replace 'YOUR_API_TOKEN' with your actual Odoo API token",
+    "For GET requests, use query parameters (e.g., ?limit=50&offset=0)",
+    "For POST requests, send JSON data in the request body",
+    "Country can be specified by name (e.g., 'United States') or code (e.g., 'US')",
+    "State/Province requires country_id to be set first",
+    "Empty string fields will be returned as empty strings, not null",
+    "The API uses pagination with limit and offset parameters"
+  ]
+}
+

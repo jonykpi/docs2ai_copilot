@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_move_form_inherit_docs2ai" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.docs2ai</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="inside">
+                <button name="action_upload_to_docs2ai"
+                        string="Upload in Docs2AI"
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-upload"
+                        invisible="move_type != 'in_invoice'"/>
+                <button name="action_open_scanner_link"
+                        string="Human verify"
+                        type="object"
+                        class="btn-secondary"
+                        icon="fa-external-link"
+                        invisible="move_type != 'in_invoice' or not docs2ai_has_scanner_link"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
