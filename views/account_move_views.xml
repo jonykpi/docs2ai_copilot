@@ -10,7 +10,7 @@
                 <button name="action_upload_to_docs2ai"
                         string="Upload to Docs2AI"
                         type="object"
-                        class="btn-primary"
+                        class="btn-default"
                         icon="fa-upload"
                         display="always"/>
                 <button name="action_open_scanner_link"
