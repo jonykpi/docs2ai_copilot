@@ -5,8 +5,8 @@ from odoo.exceptions import UserError
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    docs2ai_uploaded = fields.Boolean(string='Uploaded to Docs2AI', default=False, readonly=True)
-    docs2ai_upload_date = fields.Datetime(string='Docs2AI Upload Date', readonly=True)
+    docs2ai_copiloted = fields.Boolean(string='Uploaded to Docs2AI', default=False, readonly=True)
+    docs2ai_copilot_date = fields.Datetime(string='Docs2AI Upload Date', readonly=True)
     docs2ai_has_scanner_link = fields.Boolean(string='Has Scanner Link', compute='_compute_docs2ai_scanner_link', readonly=True, store=False)
     
     @api.depends()

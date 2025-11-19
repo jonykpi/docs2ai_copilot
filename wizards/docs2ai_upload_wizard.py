@@ -169,8 +169,8 @@ class Docs2AIUploadWizard(models.TransientModel):
                 # Mark vendor bill as uploaded (if bill was selected)
                 if self.invoice_id:
                     self.invoice_id.write({
-                        'docs2ai_uploaded': True,
-                        'docs2ai_upload_date': fields.Datetime.now(),
+                        'docs2ai_copiloted': True,
+                        'docs2ai_copilot_date': fields.Datetime.now(),
                     })
                 
                 # Return action to close wizard, show notification, and refresh page

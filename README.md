@@ -18,12 +18,12 @@ Docs2AI Upload lets Odoo finance teams push vendor bills (PDF or images) straigh
 ### Option A – Clone straight into an addons path
 
 ```bash
-git clone https://github.com/jonykpi/docs2ai-oddo.git docs2ai_upload
+git clone https://github.com/jonykpi/docs2ai-oddo.git docs2ai_copilot
 ```
 
 ### Option B – Package into a ZIP (for deployments without git)
 
-1. From your working copy run `package_docs2ai_module.sh` (provided in this repo) which creates `docs2ai_upload.zip`.
+1. From your working copy run `package_docs2ai_module.sh` (provided in this repo) which creates `docs2ai_copilot.zip`.
 2. Extract the archive into an addons directory or copy the folder to the target server.
 
 ### Update `odoo.conf`
@@ -31,7 +31,7 @@ git clone https://github.com/jonykpi/docs2ai-oddo.git docs2ai_upload
 In whatever config Odoo actually loads (e.g. `/etc/odoo/odoo.conf` or the project-local file), append the folder to `addons_path`:
 
 ```
-addons_path = /odoo/odoo/addons,/opt/odoo/custom/addons,/opt/odoo/addons/docs2ai_upload
+addons_path = /odoo/odoo/addons,/opt/odoo/custom/addons,/opt/odoo/addons/docs2ai_copilot
 ```
 
 Restart Odoo so the new path is scanned.
@@ -47,7 +47,7 @@ Restart Odoo so the new path is scanned.
 If you prefer CLI:
 
 ```bash
-./odoo-bin -c odoo.conf -d <database> -u docs2ai_upload
+./odoo-bin -c odoo.conf -d <database> -u docs2ai_copilot
 ```
 
 ---
@@ -80,10 +80,10 @@ Save and, if asked, allow Odoo to restart accounting assets.
 
 | Symptom | Fix |
 | --- | --- |
-| Module missing from Apps list | Ensure the folder name is `docs2ai_upload`, `application = True` in `__manifest__.py`, refresh Apps list. |
-| Import Module wizard fails on `model_docs2ai_upload_wizard` | Use git/CLI installation; the Import wizard cannot load Python models. |
+| Module missing from Apps list | Ensure the folder name is `docs2ai_copilot`, `application = True` in `__manifest__.py`, refresh Apps list. |
+| Import Module wizard fails on `model_docs2ai_copilot_wizard` | Use git/CLI installation; the Import wizard cannot load Python models. |
 | `FATAL: role "odoo" does not exist` | Recreate the PostgreSQL role or edit `db_user` in `odoo.conf`. |
-| `Invalid module name: docs2ai-oddo` | Do not leave hyphenated folders in `addons_path`. Rename the folder to `docs2ai_upload`. |
+| `Invalid module name: docs2ai-oddo` | Do not leave hyphenated folders in `addons_path`. Rename the folder to `docs2ai_copilot`. |
 
 ---
 

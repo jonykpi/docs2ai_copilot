@@ -1,2 +1,2 @@
-from . import docs2ai_upload_wizard
+from . import docs2ai_copilot_wizard
 
