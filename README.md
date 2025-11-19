@@ -21,7 +21,18 @@ Docs2AI Upload lets Odoo finance teams push vendor bills (PDF or images) straigh
 git clone https://github.com/jonykpi/docs2ai-oddo.git docs2ai_copilot
 ```
 
-### Option B – Package into a ZIP (for deployments without git)
+### Option B – Download with `curl` (no git required)
+
+```bash
+cd /path/to/your/custom/addons        # must be a directory already in addons_path
+curl -L https://github.com/jonykpi/docs2ai-oddo/archive/refs/heads/main.zip -o docs2ai_copilot.zip
+unzip docs2ai_copilot.zip
+mv docs2ai-oddo-main docs2ai_copilot
+```
+
+Staying inside that addons directory ensures Odoo already points at the new module. After extracting, go to Apps ▸ Developer Mode ▸ **Update Apps List**.
+
+### Option C – Package into a ZIP from an existing checkout
 
 1. From your working copy run `package_docs2ai_module.sh` (provided in this repo) which creates `docs2ai_copilot.zip`.
 2. Extract the archive into an addons directory or copy the folder to the target server.
