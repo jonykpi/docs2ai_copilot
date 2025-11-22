@@ -1,0 +1,114 @@
+.o_drag_drop_files_container {
+    margin: 20px 0;
+}
+
+.o_drag_drop_zone {
+    border: 2px dashed #cbd5e0;
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #f7fafc;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.o_drag_drop_zone:hover {
+    border-color: #4299e1;
+    background-color: #ebf8ff;
+}
+
+.o_drag_drop_zone.o_dragging {
+    border-color: #3182ce;
+    background-color: #bee3f8;
+    border-style: solid;
+}
+
+.o_drag_drop_zone .o_drag_drop_icon {
+    font-size: 48px;
+    color: #a0aec0;
+    margin-bottom: 16px;
+}
+
+.o_drag_drop_zone.dragging .o_drag_drop_icon {
+    color: #3182ce;
+}
+
+.o_drag_drop_zone .o_drag_drop_text {
+    font-size: 16px;
+    color: #4a5568;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.o_drag_drop_zone .o_drag_drop_hint {
+    font-size: 14px;
+    color: #718096;
+}
+
+.o_drag_drop_zone .o_drag_drop_button {
+    margin-top: 16px;
+    padding: 10px 20px;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.o_drag_drop_zone .o_drag_drop_button:hover {
+    background-color: #3182ce;
+}
+
+
+.o_file_list {
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.o_file_list_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.o_file_list_item .o_file_name {
+    flex: 1;
+    font-size: 14px;
+    color: #2d3748;
+    word-break: break-all;
+}
+
+.o_file_list_item .o_file_size {
+    font-size: 12px;
+    color: #718096;
+    margin-left: 12px;
+}
+
+.o_file_list_item .o_file_remove {
+    margin-left: 12px;
+    color: #e53e3e;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.o_file_list_item .o_file_remove:hover {
+    background-color: #fed7d7;
+}
+

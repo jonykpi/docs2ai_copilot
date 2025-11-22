@@ -23,7 +23,7 @@
                                 <field name="docs2ai_scanner_link" readonly="1" widget="url"/>
                             </setting>
                             <setting id="docs2ai_return_url_setting" string="Return URL" help="Return URL after document processing">
-                                <field name="docs2ai_return_url" placeholder="http://localhost:8069/odoo"/>
+                                <field name="docs2ai_return_url" placeholder="https://www.odoo.com"/>
                             </setting>
                         </block>
                     </div>

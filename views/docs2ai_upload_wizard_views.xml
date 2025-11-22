@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="view_docs2ai_file_attachment_list" model="ir.ui.view">
+        <field name="name">docs2ai.file.attachment.list</field>
+        <field name="model">docs2ai.file.attachment</field>
+        <field name="arch" type="xml">
+            <list string="Files to Upload" editable="bottom">
+                <field name="filename" required="1"/>
+                <field name="file_data" filename="filename" widget="binary" options="{'accept': '.pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp'}" required="1"/>
+                <field name="upload_status" invisible="1"/>
+                <field name="error_message" invisible="1"/>
+                <field name="wizard_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
     <record id="view_docs2ai_copilot_wizard_form" model="ir.ui.view">
         <field name="name">docs2ai.upload.wizard.form</field>
         <field name="model">docs2ai.upload.wizard</field>
@@ -7,14 +21,30 @@
             <form string="Upload to Docs2AI">
                 <group>
                     <field name="invoice_id" invisible="1"/>
-                    <field name="pdf_file" filename="pdf_filename" widget="binary" options="{'accept': '.pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp'}" required="1"/>
-                    <field name="pdf_filename" invisible="1"/>
+                    <field name="id" invisible="1"/>
                 </group>
+                <div class="o_drag_drop_files_container">
+                    <widget name="docs2ai_file_uploader"/>
+                </div>
+                <group>
+                    <field name="file_ids" nolabel="1" context="{'default_wizard_id': id}">
+                        <list editable="bottom" create="0" delete="1">
+                            <field name="wizard_id" invisible="1"/>
+                            <field name="filename" readonly="1"/>
+                            <field name="file_data" invisible="1"/>
+                            <field name="upload_status" invisible="1"/>
+                            <field name="error_message" invisible="1"/>
+                        </list>
+                    </field>
+                </group>
+                <div class="alert alert-info" role="alert">
+                    <strong>Tip:</strong> Drag and drop multiple files or click the zone above to browse. All files will be uploaded to Docs2AI when you click "Upload All Files".
+                </div>
                 <div class="alert alert-info" role="alert">
                     <strong>Note:</strong> API configuration is managed in <strong>Settings → Docs2AI</strong>
                 </div>
                 <footer>
-                    <button string="Upload" name="action_upload" type="object" class="btn-primary"/>
+                    <button string="Upload All Files" name="action_upload" type="object" class="btn-primary"/>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

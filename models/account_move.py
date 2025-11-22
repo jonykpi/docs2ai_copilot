@@ -34,7 +34,7 @@ class AccountMove(models.Model):
         if len(self) == 1:
             # Single record - open wizard with bill pre-selected
             self.ensure_one()
-            # Only allow for vendor bills (not refunds or other types)
+            # Only allow for vendor bills (not refunds or other type)
             if self.move_type != 'in_invoice':
                 raise UserError(_('This feature is only available for vendor bills.'))
             return {

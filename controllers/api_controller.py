@@ -789,6 +789,9 @@ class Docs2AIApiController(http.Controller):
             # Create bill
             bill = request.env['account.move'].sudo().create(vals)
             
+            # Post the bill
+            bill.action_post()
+            
             response_data = {
                 'status': 'success',
                 'message': 'Purchase entry created successfully',
@@ -1114,6 +1117,9 @@ class Docs2AIApiController(http.Controller):
             # Handle bill_name if provided (after creation to override auto-generated name)
             if 'bill_name' in data and data['bill_name']:
                 bill.write({'name': data['bill_name']})
+            
+            # Post the bill
+            bill.action_post()
             
             # Handle attachment if provided
             attachment_id = None

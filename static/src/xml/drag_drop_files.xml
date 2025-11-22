@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="docs2ai_copilot.DragDropFilesWidget" owl="1">
+        <div class="o_drag_drop_files_widget">
+            <div 
+                t-ref="dropZone" 
+                class="o_drag_drop_zone"
+                t-att-class="{'o_dragging': state.isDragging}"
+                t-on-click="openFileDialog">
+                <div class="o_drag_drop_icon">📁</div>
+                <div class="o_drag_drop_text">
+                    Drag and drop files here or click to browse
+                </div>
+                <div class="o_drag_drop_hint">
+                    Supports PDF, JPG, PNG, GIF, BMP, WEBP
+                </div>
+                <button type="button" class="btn btn-primary mt-2">
+                    Select Files
+                </button>
+                <input 
+                    t-ref="fileInput"
+                    type="file" 
+                    multiple 
+                    accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp"
+                    t-on-change="handleFileSelect"/>
+            </div>
+        </div>
+    </t>
+</templates>
+

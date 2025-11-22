@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="docs2ai_copilot.Docs2AIFileUploader">
+        <div class="o_drag_drop_files_container">
+            <div class="o_drag_drop_zone" t-ref="dropZone">
+                <div class="o_drag_drop_icon">📁</div>
+                <div class="o_drag_drop_text">Drag and drop files here or click to browse</div>
+                <div class="o_drag_drop_hint">Supports PDF, JPG, PNG, GIF, BMP, WEBP</div>
+                <FileUploader
+                    multiUpload="true"
+                    acceptedFileExtensions="acceptedFileExtensions"
+                    onUploaded.bind="onFileUploaded"
+                >
+                    <t t-set-slot="toggler">
+                        <button type="button" class="btn btn-primary mt-2">
+                            Select Files
+                        </button>
+                    </t>
+                </FileUploader>
+            </div>
+        </div>
+    </t>
+</templates>
+

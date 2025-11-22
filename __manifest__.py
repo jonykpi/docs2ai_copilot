@@ -26,6 +26,15 @@
         'views/account_move_views.xml',
         'views/docs2ai_upload_wizard_views.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'docs2ai_copilot/static/src/css/drag_drop_widget.css',
+            'docs2ai_copilot/static/src/js/drag_drop_files.js',
+            'docs2ai_copilot/static/src/js/docs2ai_upload_wizard_view.js',
+            'docs2ai_copilot/static/src/js/docs2ai_file_uploader.js',
+            'docs2ai_copilot/static/src/xml/docs2ai_file_uploader.xml',
+        ],
+    },
     'icon': '/docs2ai_copilot/static/description/icon.png',
     'images': [
         '/docs2ai_copilot/static/description/cover.png',
