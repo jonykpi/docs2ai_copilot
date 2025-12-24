@@ -7,10 +7,11 @@
         <p><strong>Docs2AI Copilot</strong> lets accounting teams push vendor bills (PDF or image)
         straight to Docs2AI for OCR and automated data extraction.</p>
         <ul>
-            <li>Adds an <em>Upload to Docs2AI</em> button on vendor bills</li>
+            <li>Adds an <em>Upload to Docs2AI</em> button on vendor bills and expenses</li>
             <li>Validates API credentials and target folder directly from Odoo settings</li>
-            <li>Attaches the processed document back to the bill for full traceability</li>
+            <li>Attaches the processed document back to the bill/expense for full traceability</li>
             <li>Supports PDF, JPG, PNG, GIF, BMP and WEBP uploads</li>
+            <li>Distinguishes between vendor bills and expenses in upload API</li>
         </ul>
         <p>Use it to eliminate manual data entry, keep auditors happy, and
         centralize vendor paperwork without leaving Odoo.</p>
@@ -19,11 +20,12 @@
     """,
     'author': 'Docs2ai',
     'website': 'https://www.docs2ai.co',
-    'depends': ['account', 'base_setup'],
+    'depends': ['account', 'base_setup', 'hr_expense'],
     'data': [
         'security/ir.model.access.csv',
         'views/res_config_settings_views.xml',
         'views/account_move_views.xml',
+        'views/hr_expense_views.xml',
         'views/docs2ai_upload_wizard_views.xml',
     ],
     'assets': {

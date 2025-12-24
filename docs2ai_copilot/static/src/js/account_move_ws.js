@@ -167,8 +167,8 @@ const originalSetup = ListController.prototype.setup;
 ListController.prototype.setup = function(...args) {
     const result = originalSetup.apply(this, args);
     
-    // Only enable for account.move
-    if (this.props?.resModel === "account.move") {
+    // Enable for account.move and hr.expense
+    if (this.props?.resModel === "account.move" || this.props?.resModel === "hr.expense") {
         try {
             this.orm = this.orm || useService("orm");
             this.notification = this.notification || useService("notification");

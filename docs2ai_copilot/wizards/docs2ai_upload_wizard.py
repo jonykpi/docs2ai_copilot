@@ -57,13 +57,28 @@ class Docs2AIUploadWizard(models.TransientModel):
     _description = 'Wizard to upload PDF/Image to Docs2AI'
 
     invoice_id = fields.Many2one('account.move', string='Vendor Bill (Optional)', required=False, domain=[('move_type', '=', 'in_invoice')])
+    expense_id = fields.Many2one('hr.expense', string='Expense (Optional)', required=False)
+    upload_type = fields.Selection([
+        ('vendor_bill', 'Vendor Bill'),
+        ('expense', 'Expense'),
+    ], string='Type', default=False, readonly=False)
     pdf_file = fields.Binary(string='Document File (PDF or Image)', attachment=True, help='Single file upload (legacy support)')
     pdf_filename = fields.Char(string='Filename')
     file_ids = fields.One2many('docs2ai.file.attachment', 'wizard_id', string='Files to Upload')
 
+    @api.onchange('invoice_id', 'expense_id')
+    def _onchange_upload_type(self):
+        """Update upload type when invoice_id or expense_id changes"""
+        if self.expense_id:
+            self.upload_type = 'expense'
+        elif self.invoice_id:
+            self.upload_type = 'vendor_bill'
+        # Don't override if already set from context (for header button clicks)
+        # Only clear if both are None and upload_type was set from these fields
+
     @api.model
     def default_get(self, fields_list):
-        """Set default vendor bill from context"""
+        """Set default vendor bill or expense from context"""
         res = super().default_get(fields_list)
         if 'invoice_id' in self.env.context:
             invoice_id = self.env.context['invoice_id']
@@ -71,6 +86,14 @@ class Docs2AIUploadWizard(models.TransientModel):
             # Only allow vendor bills (not refunds)
             if invoice.move_type == 'in_invoice':
                 res['invoice_id'] = invoice_id
+        if 'expense_id' in self.env.context:
+            expense_id = self.env.context['expense_id']
+            expense = self.env['hr.expense'].browse(expense_id)
+            if expense.exists():
+                res['expense_id'] = expense_id
+        # Set upload_type from context if provided (for header button clicks)
+        if 'default_upload_type' in self.env.context:
+            res['upload_type'] = self.env.context['default_upload_type']
         return res
 
     def _validate_file_type(self, filename, file_data):
@@ -102,13 +125,13 @@ class Docs2AIUploadWizard(models.TransientModel):
         
         return mime_type or 'application/pdf'
 
-    def _upload_single_file(self, file_data, filename, api_key, folder_id, return_url):
+    def _upload_single_file(self, file_data, filename, api_key, folder_id, return_url, upload_type=None):
         """Upload a single file to Docs2AI API"""
         # Validate file type
         mime_type = self._validate_file_type(filename, file_data)
         
         # Build API URL with folder_id
-        api_url = f'https://app.docs2ai.com/api/enterprise/{folder_id}/send-file-doc2ai'
+        api_url = f'http://backend.test/api/enterprise/{folder_id}/send-file-doc2ai'
         
         # Prepare the API request
         headers = {
@@ -127,10 +150,20 @@ class Docs2AIUploadWizard(models.TransientModel):
             'info[platform]': 'odoo',  # Form-data array notation
         }
         
+        # Add type parameter if provided (vendor or expenses)
+        if upload_type:
+            # Map internal type to API type
+            if upload_type == 'vendor_bill':
+                data['type'] = 'vendor'
+            elif upload_type == 'expense':
+                data['type'] = 'expenses'
+        
         # Make API call
-        _logger.info(f'Uploading file {filename} to Docs2AI (folder: {folder_id})...')
+        api_type = data.get('type', 'N/A')
+        _logger.info(f'Uploading file {filename} to Docs2AI (folder: {folder_id}, type: {api_type})...')
         _logger.info(f'API URL: {api_url}')
         _logger.info(f'File: {filename} ({mime_type})')
+        _logger.info(f'Upload type: {upload_type} -> API type: {api_type}')
         
         response = requests.post(
             api_url,
@@ -191,11 +224,43 @@ class Docs2AIUploadWizard(models.TransientModel):
         if not files_to_upload:
             raise UserError(_('Please select at least one file to upload.'))
         
-        # Invoice is optional - if provided, validate it's a vendor bill
-        if self.invoice_id:
+        # Determine upload type - check expense_id or invoice_id directly
+        upload_type = None
+        self.ensure_one()
+        
+        # Check expense_id first
+        if self.expense_id:
+            upload_type = 'expense'
+            # Update the field for consistency
+            if self.upload_type != 'expense':
+                self.upload_type = 'expense'
+            _logger.info(f'Upload type determined from expense_id: {self.expense_id.id} -> {upload_type}')
+        # Then check invoice_id
+        elif self.invoice_id:
             # Ensure this is a vendor bill (not refund or other type)
             if self.invoice_id.move_type != 'in_invoice':
                 raise UserError(_('This feature is only available for vendor bills.'))
+            upload_type = 'vendor_bill'
+            # Update the field for consistency
+            if self.upload_type != 'vendor_bill':
+                self.upload_type = 'vendor_bill'
+            _logger.info(f'Upload type determined from invoice_id: {self.invoice_id.id} -> {upload_type}')
+        # Fallback: use upload_type field (set from context for header button clicks)
+        elif self.upload_type:
+            upload_type = self.upload_type
+            _logger.info(f'Upload type determined from upload_type field: {upload_type}')
+        else:
+            _logger.warning(f'No upload_type determined: expense_id={self.expense_id.id if self.expense_id else None}, invoice_id={self.invoice_id.id if self.invoice_id else None}, upload_type={self.upload_type}')
+            # Try to determine from active model in context
+            active_model = self.env.context.get('active_model')
+            if active_model == 'hr.expense':
+                upload_type = 'expense'
+                self.upload_type = 'expense'
+                _logger.info(f'Upload type determined from active_model (hr.expense): {upload_type}')
+            elif active_model == 'account.move':
+                upload_type = 'vendor_bill'
+                self.upload_type = 'vendor_bill'
+                _logger.info(f'Upload type determined from active_model (account.move): {upload_type}')
         
         # Get API configuration from settings
         api_key = self.env['ir.config_parameter'].sudo().get_param(
@@ -231,7 +296,8 @@ class Docs2AIUploadWizard(models.TransientModel):
                     file_info['filename'],
                     api_key,
                     folder_id,
-                    return_url
+                    return_url,
+                    upload_type
                 )
                 
                 if success:
@@ -261,12 +327,19 @@ class Docs2AIUploadWizard(models.TransientModel):
                         'error_message': error_text
                     })
         
-        # Mark vendor bill as uploaded if at least one file succeeded
-        if success_count > 0 and self.invoice_id:
-            self.invoice_id.write({
-                'docs2ai_copiloted': True,
-                'docs2ai_copilot_date': fields.Datetime.now(),
-            })
+        # Mark vendor bill or expense move as uploaded if at least one file succeeded
+        if success_count > 0:
+            if self.invoice_id:
+                self.invoice_id.write({
+                    'docs2ai_copiloted': True,
+                    'docs2ai_copilot_date': fields.Datetime.now(),
+                })
+            elif self.expense_id and self.expense_id.account_move_id:
+                # Mark the account move associated with the expense
+                self.expense_id.account_move_id.write({
+                    'docs2ai_copiloted': True,
+                    'docs2ai_copilot_date': fields.Datetime.now(),
+                })
         
         # Prepare notification message
         if failed_count == 0:

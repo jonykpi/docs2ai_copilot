@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add buttons to expenses list view -->
+    <record id="view_hr_expense_tree_inherit_docs2ai" model="ir.ui.view">
+        <field name="name">hr.expense.tree.inherit.docs2ai</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_expenses_analysis_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <header>
+                    <button name="action_upload_to_docs2ai"
+                            string="Docs2AI"
+                            type="object"
+                            class="btn-default"
+                            icon="fa-upload"
+                            display="always"/>
+                    <button name="action_open_scanner_link"
+                            string="Verify"
+                            type="object"
+                            class="btn-secondary"
+                            icon="fa-external-link"
+                            display="always"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
+
+
+

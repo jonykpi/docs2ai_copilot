@@ -23,26 +23,26 @@ class AccountMove(models.Model):
         for record in self:
             record.docs2ai_has_scanner_link = has_link
 
+    def _is_expense_move(self):
+        """Check if this account move is related to expenses"""
+        return bool(self.expense_ids)
+    
+    def _get_docs2ai_type(self):
+        """Get the type for Docs2AI upload: 'vendor_bill' or 'expense'"""
+        if self._is_expense_move():
+            return 'expense'
+        elif self.move_type == 'in_invoice':
+            return 'vendor_bill'
+        return None
+    
     def action_upload_to_docs2ai(self):
         """Open wizard to upload PDF/Image to Docs2AI"""
         # Handle list view header button (no records selected) - allow upload without bill
         if not self:
-            return {
-                'name': 'Upload to Docs2AI',
-                'type': 'ir.actions.act_window',
-                'res_model': 'docs2ai.upload.wizard',
-                'view_mode': 'form',
-                'target': 'new',
-                'context': {},
-            }
-        
-        # Handle both single record and multiple records from list view
-        if len(self) == 1:
-            # Single record - open wizard with bill pre-selected
-            self.ensure_one()
-            # Only allow for vendor bills (not refunds or other type)
-            if self.move_type != 'in_invoice':
-                raise UserError(_('This feature is only available for vendor bills.'))
+            # Determine type from active model or move_type in context
+            upload_type = 'vendor_bill'  # Default for account.move
+            if self.env.context.get('default_move_type') == 'in_invoice':
+                upload_type = 'vendor_bill'
             return {
                 'name': 'Upload to Docs2AI',
                 'type': 'ir.actions.act_window',
@@ -50,15 +50,42 @@ class AccountMove(models.Model):
                 'view_mode': 'form',
                 'target': 'new',
                 'context': {
-                    'default_invoice_id': self.id,
-                }
+                    'default_upload_type': upload_type,  # Set type from context
+                },
+            }
+        
+        # Handle both single record and multiple records from list view
+        if len(self) == 1:
+            # Single record - open wizard with bill/expense pre-selected
+            self.ensure_one()
+            # Check if it's a vendor bill or expense move
+            docs2ai_type = self._get_docs2ai_type()
+            if not docs2ai_type:
+                raise UserError(_('This feature is only available for vendor bills or expenses.'))
+            
+            context = {}
+            if docs2ai_type == 'vendor_bill':
+                context['default_invoice_id'] = self.id
+            elif docs2ai_type == 'expense':
+                # Use the first expense if multiple exist
+                expense = self.expense_ids[0] if self.expense_ids else None
+                if expense:
+                    context['default_expense_id'] = expense.id
+            
+            return {
+                'name': 'Upload to Docs2AI',
+                'type': 'ir.actions.act_window',
+                'res_model': 'docs2ai.upload.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': context,
             }
         else:
-            # Multiple records - open wizard for first selected vendor bill
-            vendor_bills = self.filtered(lambda m: m.move_type == 'in_invoice')
-            if not vendor_bills:
-                raise UserError(_('Please select at least one vendor bill.'))
-            return vendor_bills[0].action_upload_to_docs2ai()
+            # Multiple records - open wizard for first selected vendor bill or expense
+            valid_moves = self.filtered(lambda m: m._get_docs2ai_type() is not None)
+            if not valid_moves:
+                raise UserError(_('Please select at least one vendor bill or expense.'))
+            return valid_moves[0].action_upload_to_docs2ai()
     
     def action_open_scanner_link(self):
         """Open Docs2AI scanner link in new window"""
@@ -87,8 +114,9 @@ class AccountMove(models.Model):
                 'total_pending': 0,
                 'is_running': False,
             }
+            
 
-        base_url = f'https://app.docs2ai.com/api/enterprise/{folder_id}/get-progress-status'
+        base_url = f'http://backend.test/api/enterprise/{folder_id}/get-progress-status'
         headers = {
             'Authorization': api_key,
             'Accept': 'application/json',

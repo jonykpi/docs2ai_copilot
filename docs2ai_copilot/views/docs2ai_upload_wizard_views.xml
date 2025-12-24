@@ -21,6 +21,8 @@
             <form string="Upload to Docs2AI">
                 <group>
                     <field name="invoice_id" invisible="1"/>
+                    <field name="expense_id" invisible="1"/>
+                    <field name="upload_type" invisible="1"/>
                     <field name="id" invisible="1"/>
                 </group>
                 <div class="o_drag_drop_files_container">

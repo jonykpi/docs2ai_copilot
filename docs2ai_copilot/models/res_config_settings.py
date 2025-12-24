@@ -54,7 +54,7 @@ class ResConfigSettings(models.TransientModel):
         if new_folder_id and new_folder_id != current_folder_id and api_key:
             try:
                 # Call API to validate folder_id BEFORE saving
-                api_url = f'https://app.docs2ai.com/api/enterprise/{new_folder_id}/get-scanner-link'
+                api_url = f'http://backend.test/api/enterprise/{new_folder_id}/get-scanner-link'
                 headers = {
                     'Authorization': f'Bearer {api_key}'
                 }
