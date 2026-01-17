@@ -31,9 +31,9 @@
     'assets': {
         'web.assets_backend': [
             'docs2ai_copilot/static/src/css/drag_drop_widget.css',
+            'docs2ai_copilot/static/src/js/docs2ai_file_uploader.js',
             'docs2ai_copilot/static/src/js/drag_drop_files.js',
             'docs2ai_copilot/static/src/js/docs2ai_upload_wizard_view.js',
-            'docs2ai_copilot/static/src/js/docs2ai_file_uploader.js',
             'docs2ai_copilot/static/src/js/account_move_ws.js',
             'docs2ai_copilot/static/src/xml/docs2ai_file_uploader.xml',
         ],
