@@ -131,7 +131,7 @@ class Docs2AIUploadWizard(models.TransientModel):
         mime_type = self._validate_file_type(filename, file_data)
         
         # Build API URL with folder_id
-        api_url = f'http://backend.test/api/enterprise/{folder_id}/send-file-doc2ai'
+        api_url = f'https://app.docs2ai.com/api/enterprise/{folder_id}/send-file-doc2ai'
         
         # Prepare the API request
         headers = {
