@@ -1,3 +1,4 @@
+import os
 import requests
 import logging
 
@@ -5,6 +6,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+
+DOCS2AI_API_BASE_URL = os.getenv('DOCS2AI_API_BASE_URL', 'http://backend.test').rstrip('/')
 
 
 class ResConfigSettings(models.TransientModel):
@@ -39,7 +42,7 @@ class ResConfigSettings(models.TransientModel):
     docs2ai_return_url = fields.Char(
         string='Return URL',
         config_parameter='docs2ai.return_url',
-        default='http://localhost:8069/odoo',
+        default=os.getenv('DOCS2AI_RETURN_URL', 'http://localhost:8069/odoo'),
         help='Return URL after document processing'
     )
 
@@ -54,7 +57,7 @@ class ResConfigSettings(models.TransientModel):
         if new_folder_id and new_folder_id != current_folder_id and api_key:
             try:
                 # Call API to validate folder_id BEFORE saving
-                api_url = f'http://backend.test/api/enterprise/{new_folder_id}/get-scanner-link'
+                api_url = f'{DOCS2AI_API_BASE_URL}/api/enterprise/{new_folder_id}/get-scanner-link'
                 headers = {
                     'Authorization': f'Bearer {api_key}'
                 }

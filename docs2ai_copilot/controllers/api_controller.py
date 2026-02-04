@@ -1116,7 +1116,21 @@ class Docs2AIApiController(http.Controller):
             
             # Handle bill_name if provided (after creation to override auto-generated name)
             if 'bill_name' in data and data['bill_name']:
-                bill.write({'name': data['bill_name']})
+                requested_name = data['bill_name']
+                if requested_name not in {'/', '0000'}:
+                    duplicate = request.env['account.move'].sudo().search([
+                        ('name', '=', requested_name),
+                        ('journal_id', '=', bill.journal_id.id),
+                        ('id', '!=', bill.id),
+                    ], limit=1)
+                    if duplicate:
+                        _logger.warning(
+                            'Skipping bill_name override because it already exists for journal %s: %s',
+                            bill.journal_id.display_name,
+                            requested_name,
+                        )
+                    else:
+                        bill.write({'name': requested_name})
             
             # Post the bill
             bill.action_post()
@@ -2178,4 +2192,3 @@ class Docs2AIApiController(http.Controller):
                 headers=[('Content-Type', 'application/json')],
                 status=500
             )
-
