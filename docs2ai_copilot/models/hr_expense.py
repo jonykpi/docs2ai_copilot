@@ -13,11 +13,12 @@ class HrExpense(models.Model):
     docs2ai_copilot_date = fields.Datetime(string='Docs2AI Upload Date', compute='_compute_docs2ai_copiloted', readonly=True, store=False)
     docs2ai_has_scanner_link = fields.Boolean(string='Has Scanner Link', compute='_compute_docs2ai_scanner_link', readonly=True, store=False)
     
-    @api.depends('account_move_id')
+    @api.depends()
     def _compute_docs2ai_copiloted(self):
         """Check if the associated account move has been uploaded to Docs2AI"""
+        has_account_move = 'account_move_id' in self._fields
         for record in self:
-            if record.account_move_id:
+            if has_account_move and record.account_move_id:
                 record.docs2ai_copiloted = record.account_move_id.docs2ai_copiloted
                 record.docs2ai_copilot_date = record.account_move_id.docs2ai_copilot_date
             else:
