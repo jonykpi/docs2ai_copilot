@@ -1,3 +1,4 @@
+import os
 import logging
 
 import requests
@@ -6,6 +7,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+
+DOCS2AI_API_BASE_URL = os.getenv('DOCS2AI_API_BASE_URL', 'http://backend.test').rstrip('/')
 
 
 class AccountMove(models.Model):
@@ -116,7 +119,7 @@ class AccountMove(models.Model):
             }
             
 
-        base_url = f'https://app.docs2ai.com/api/enterprise/{folder_id}/get-progress-status'
+        base_url = f'{DOCS2AI_API_BASE_URL}/api/enterprise/{folder_id}/get-progress-status'
         headers = {
             'Authorization': api_key,
             'Accept': 'application/json',
@@ -163,4 +166,3 @@ class AccountMove(models.Model):
             'total_pending': total_pending,
             'is_running': is_running,
         }
-

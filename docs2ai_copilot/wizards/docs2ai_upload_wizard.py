@@ -1,4 +1,5 @@
 import base64
+import os
 import requests
 import logging
 import mimetypes
@@ -8,6 +9,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+
+DOCS2AI_API_BASE_URL = os.getenv('DOCS2AI_API_BASE_URL', 'http://backend.test').rstrip('/')
 
 # Allowed file types
 ALLOWED_MIME_TYPES = [
@@ -131,7 +134,7 @@ class Docs2AIUploadWizard(models.TransientModel):
         mime_type = self._validate_file_type(filename, file_data)
         
         # Build API URL with folder_id
-        api_url = f'https://app.docs2ai.com/api/enterprise/{folder_id}/send-file-doc2ai'
+        api_url = f'{DOCS2AI_API_BASE_URL}/api/enterprise/{folder_id}/send-file-doc2ai'
         
         # Prepare the API request
         headers = {
