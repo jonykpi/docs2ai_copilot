@@ -3,6 +3,7 @@
     <record id="view_docs2ai_file_attachment_list" model="ir.ui.view">
         <field name="name">docs2ai.file.attachment.list</field>
         <field name="model">docs2ai.file.attachment</field>
+        <field name="type">tree</field>
         <field name="arch" type="xml">
             <list string="Files to Upload" editable="bottom">
                 <field name="filename" required="1"/>
