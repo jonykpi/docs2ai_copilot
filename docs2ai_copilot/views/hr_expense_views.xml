@@ -4,10 +4,10 @@
     <record id="view_hr_expense_tree_inherit_docs2ai" model="ir.ui.view">
         <field name="name">hr.expense.tree.inherit.docs2ai</field>
         <field name="model">hr.expense</field>
-        <field name="inherit_id" ref="hr_expense.hr_expense_view_expenses_analysis_tree"/>
+        <field name="inherit_id" ref="hr_expense.view_expenses_tree"/>
         <field name="priority">16</field>
         <field name="arch" type="xml">
-            <list position="inside">
+            <xpath expr="//list[@string='Expenses']" position="inside">
                 <header>
                     <button name="action_upload_to_docs2ai"
                             string="Docs2AI"
@@ -22,7 +22,7 @@
                             icon="fa-external-link"
                             display="always"/>
                 </header>
-            </list>
+            </xpath>
         </field>
     </record>
 </odoo>
