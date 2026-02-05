@@ -10,7 +10,7 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
-DOCS2AI_API_BASE_URL = os.getenv('DOCS2AI_API_BASE_URL', 'http://backend.test').rstrip('/')
+DOCS2AI_API_BASE_URL = os.getenv('DOCS2AI_API_BASE_URL', 'https://app.docs2ai.com').rstrip('/')
 
 # Allowed file types
 ALLOWED_MIME_TYPES = [
