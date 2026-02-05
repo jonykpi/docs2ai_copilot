@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="hr_expense.view_expenses_tree"/>
         <field name="priority">16</field>
         <field name="arch" type="xml">
-            <xpath expr="//list[@string='Expenses']" position="inside">
+            <xpath expr="//list" position="inside">
                 <header>
                     <button name="action_upload_to_docs2ai"
                             string="Docs2AI"
