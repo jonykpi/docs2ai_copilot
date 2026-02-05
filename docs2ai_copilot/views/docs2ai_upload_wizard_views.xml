@@ -31,13 +31,12 @@
                 </div>
                 <group>
                     <field name="file_ids" nolabel="1" context="{'default_wizard_id': id}">
-                        <list editable="bottom" create="0" delete="1">
-                            <field name="wizard_id" invisible="1"/>
+                        <tree editable="bottom" create="0" delete="1">
                             <field name="filename" readonly="1"/>
                             <field name="file_data" invisible="1"/>
                             <field name="upload_status" invisible="1"/>
                             <field name="error_message" invisible="1"/>
-                        </list>
+                        </tree>
                     </field>
                 </group>
                 <div class="alert alert-info" role="alert">
