@@ -5,13 +5,13 @@
         <field name="model">docs2ai.file.attachment</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <list string="Files to Upload" editable="bottom">
+            <tree string="Files to Upload" editable="bottom">
                 <field name="filename" required="1"/>
                 <field name="file_data" filename="filename" widget="binary" options="{'accept': '.pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp'}" required="1"/>
                 <field name="upload_status" invisible="1"/>
                 <field name="error_message" invisible="1"/>
                 <field name="wizard_id" invisible="1"/>
-            </list>
+            </tree>
         </field>
     </record>
 
