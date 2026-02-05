@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Add buttons to vendor bills list view - inherit from view_in_invoice_tree which has the header -->
+    <!-- Add buttons to vendor bills list view - inherit from view_invoice_tree -->
     <record id="view_account_move_tree_inherit_docs2ai" model="ir.ui.view">
         <field name="name">account.move.tree.inherit.docs2ai</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//list/header" position="inside">
+            <button name="action_force_register_payment" position="before">
                 <button name="action_upload_to_docs2ai"
                         string="Docs2AI"
                         type="object"
@@ -19,7 +19,7 @@
                         class="btn-secondary"
                         icon="fa-external-link"
                         display="always"/>
-            </xpath>
+            </button>
         </field>
     </record>
 </odoo>
