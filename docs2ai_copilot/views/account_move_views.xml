@@ -5,8 +5,9 @@
         <field name="name">account.move.tree.inherit.docs2ai</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="priority">16</field>
         <field name="arch" type="xml">
-            <button name="action_force_register_payment" position="before">
+            <header position="inside">
                 <button name="action_upload_to_docs2ai"
                         string="Docs2AI"
                         type="object"
@@ -19,7 +20,7 @@
                         class="btn-secondary"
                         icon="fa-external-link"
                         display="always"/>
-            </button>
+            </header>
         </field>
     </record>
 </odoo>
