@@ -100,7 +100,7 @@ class Docs2AIFileUploader extends Component {
 // Export the class for use in other files
 export { Docs2AIFileUploader };
 
-// Also register the widget here as a fallback
+// Register the widget - this must happen at module load time
 const docs2aiFileUploader = {
     component: Docs2AIFileUploader,
     extractProps: ({ attrs }) => ({
@@ -108,10 +108,5 @@ const docs2aiFileUploader = {
     }),
 };
 
-try {
-    registry.category("view_widgets").add("docs2ai_file_uploader", docs2aiFileUploader);
-    console.log("[Docs2AI] Widget registered in docs2ai_file_uploader.js");
-} catch (error) {
-    console.error("[Docs2AI] Failed to register widget in docs2ai_file_uploader.js:", error);
-}
+registry.category("view_widgets").add("docs2ai_file_uploader", docs2aiFileUploader);
 
