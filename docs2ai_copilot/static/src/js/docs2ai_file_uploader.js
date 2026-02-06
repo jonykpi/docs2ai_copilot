@@ -6,11 +6,6 @@ import { useService } from "@web/core/utils/hooks";
 import { _t } from "@web/core/l10n/translation";
 import { FileUploader } from "@web/views/fields/file_handler";
 
-// Ensure registry is available
-if (!registry) {
-    console.error("[Docs2AI] Registry not available!");
-}
-
 class Docs2AIFileUploader extends Component {
     static template = "docs2ai_copilot.Docs2AIFileUploader";
     static components = { FileUploader };
