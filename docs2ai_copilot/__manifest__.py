@@ -1,6 +1,6 @@
 {
     'name': 'Docs2AI copilot',
-    'version': '1.0.1',
+    'version': '1.0.2',
     'category': 'Accounting',
     'summary': 'Upload vendor bills to Docs2AI - docs2ai copilot',
     'description': """
