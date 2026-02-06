@@ -104,10 +104,5 @@ export const docs2aiFileUploader = {
     }),
 };
 
-// Register the widget immediately - ensure it happens at module load time
-try {
-    registry.category("view_widgets").add("docs2ai_file_uploader", docs2aiFileUploader);
-} catch (error) {
-    console.error("Failed to register docs2ai_file_uploader widget:", error);
-}
+// Widget registration is done in docs2ai_upload_wizard_view.js to ensure it loads before the view
 
