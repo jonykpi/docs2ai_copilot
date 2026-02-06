@@ -6,7 +6,7 @@ import { useService } from "@web/core/utils/hooks";
 import { _t } from "@web/core/l10n/translation";
 import { FileUploader } from "@web/views/fields/file_handler";
 
-export class Docs2AIFileUploader extends Component {
+class Docs2AIFileUploader extends Component {
     static template = "docs2ai_copilot.Docs2AIFileUploader";
     static components = { FileUploader };
     static props = {
@@ -97,12 +97,21 @@ export class Docs2AIFileUploader extends Component {
     }
 }
 
-export const docs2aiFileUploader = {
+// Export the class for use in other files
+export { Docs2AIFileUploader };
+
+// Also register the widget here as a fallback
+const docs2aiFileUploader = {
     component: Docs2AIFileUploader,
     extractProps: ({ attrs }) => ({
         readonly: attrs.readonly === "1" || attrs.readonly === "true",
     }),
 };
 
-// Widget registration is done in docs2ai_upload_wizard_view.js to ensure it loads before the view
+try {
+    registry.category("view_widgets").add("docs2ai_file_uploader", docs2aiFileUploader);
+    console.log("[Docs2AI] Widget registered in docs2ai_file_uploader.js");
+} catch (error) {
+    console.error("[Docs2AI] Failed to register widget in docs2ai_file_uploader.js:", error);
+}
 
