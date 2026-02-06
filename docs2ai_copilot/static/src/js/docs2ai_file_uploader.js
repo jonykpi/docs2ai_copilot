@@ -101,5 +101,9 @@ export const docs2aiFileUploader = {
     component: Docs2AIFileUploader,
 };
 
-registry.category("view_widgets").add("docs2ai_file_uploader", docs2aiFileUploader);
+// Register the widget immediately
+const widgetRegistry = registry.category("view_widgets");
+if (!widgetRegistry.contains("docs2ai_file_uploader")) {
+    widgetRegistry.add("docs2ai_file_uploader", docs2aiFileUploader);
+}
 
