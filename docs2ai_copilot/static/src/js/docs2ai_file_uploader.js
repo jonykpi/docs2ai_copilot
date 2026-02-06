@@ -1,10 +1,10 @@
 /** @odoo-module **/
 
 import { Component } from "@odoo/owl";
-import { FileUploader } from "@web/views/fields/file_handler";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { _t } from "@web/core/l10n/translation";
+import { FileUploader } from "@web/views/fields/file_handler";
 
 export class Docs2AIFileUploader extends Component {
     static template = "docs2ai_copilot.Docs2AIFileUploader";
@@ -99,11 +99,11 @@ export class Docs2AIFileUploader extends Component {
 
 export const docs2aiFileUploader = {
     component: Docs2AIFileUploader,
+    extractProps: ({ attrs }) => ({
+        readonly: attrs.readonly === "1" || attrs.readonly === "true",
+    }),
 };
 
 // Register the widget immediately
-const widgetRegistry = registry.category("view_widgets");
-if (!widgetRegistry.contains("docs2ai_file_uploader")) {
-    widgetRegistry.add("docs2ai_file_uploader", docs2aiFileUploader);
-}
+registry.category("view_widgets").add("docs2ai_file_uploader", docs2aiFileUploader);
 
